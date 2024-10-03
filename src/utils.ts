@@ -1,3 +1,4 @@
+import { NUM_DECIMAL_DIGITS } from './constants';
 import { Operator } from './types';
 
 const INTEGER_FORMATTER = new Intl.NumberFormat('en-US', {
@@ -11,7 +12,10 @@ export const formatInteger = (operand: string) => {
 
     if (!decimal) return INTEGER_FORMATTER.format(parseFloat(integer));
 
-    return `${INTEGER_FORMATTER.format(parseFloat(integer))}.${decimal}`;
+    return `${INTEGER_FORMATTER.format(parseFloat(integer))}.${decimal.slice(
+        0,
+        NUM_DECIMAL_DIGITS
+    )}`;
 };
 
 export const evaluate = (
