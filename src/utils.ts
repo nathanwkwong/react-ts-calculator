@@ -1,16 +1,16 @@
-import { NUM_DECIMAL_DIGITS } from './constants';
+import { INTEGER_FORMATTER, NUM_DECIMAL_DIGITS } from './constants';
 import { Operator } from './types';
-
-const INTEGER_FORMATTER = new Intl.NumberFormat('en-US', {
-    maximumFractionDigits: 0
-});
 
 export const formatInteger = (operand: string) => {
     if (operand === '') return '';
+    if (operand === '-') return '-';
 
     const [integer, decimal] = operand.split('.');
 
-    if (!decimal) return INTEGER_FORMATTER.format(parseFloat(integer));
+    if (!decimal)
+        return operand.includes('.')
+            ? INTEGER_FORMATTER.format(parseFloat(integer)) + '.'
+            : INTEGER_FORMATTER.format(parseFloat(integer));
 
     return `${INTEGER_FORMATTER.format(parseFloat(integer))}.${decimal.slice(
         0,

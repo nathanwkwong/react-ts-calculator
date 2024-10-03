@@ -10,6 +10,7 @@ export const useCalculator = () => {
         useState<boolean>(false);
 
     const inputDigit = (digit: string) => {
+        if (digit === '.' && currOperand === '') return;
         if (digit === '.' && currOperand.includes('.')) return;
         if (digit === '0' && currOperand === '0') return;
 
@@ -50,6 +51,23 @@ export const useCalculator = () => {
     };
 
     const chooseOperator = (newOperator: Operator) => {
+        // negative number input
+        if (newOperator === '-' && currOperand === '' && storedOperand === '') {
+            setCurrOperand('-');
+            return;
+        }
+
+        // alter '-' operator
+        if (newOperator === '-' && currOperand === '-') {
+            setCurrOperand('');
+            return;
+        }
+
+        //  prevent operator change if the current operand is '-' only
+        if (currOperand === '-') {
+            return;
+        }
+
         if (currOperand === '' && storedOperand === '') return;
 
         if (currOperand === '') {
@@ -57,16 +75,26 @@ export const useCalculator = () => {
             return;
         }
 
+        // move the current operand and operator to the stored operand
         if (storedOperand == '') {
-            setStoredOperand(currOperand);
+            setStoredOperand(
+                currOperand[currOperand.length - 1] === '.'
+                    ? currOperand.slice(0, currOperand.length - 1)
+                    : currOperand
+            );
             setCurrOperand('');
             setOperator(newOperator);
             return;
         }
 
-        const newCalculation = evaluate(storedOperand, currOperand, operator);
+        // calculate the stored operand and current operand with the operator input
+        const newEvaluatedValue = evaluate(
+            storedOperand,
+            currOperand,
+            operator
+        );
 
-        setStoredOperand(newCalculation);
+        setStoredOperand(newEvaluatedValue);
         setOperator(newOperator);
         setCurrOperand('');
     };
