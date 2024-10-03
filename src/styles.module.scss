@@ -1,0 +1,52 @@
+.container {
+    display: grid;
+    margin-top: 20;
+    grid-template-columns: repeat(4, 6rem);
+    grid-template-rows: minmax(7rem, auto) repeat(5, 6rem);
+    color: #000;
+
+    .spanColTwo {
+        grid-column: span 2;
+    }
+
+    .spanRowTwo {
+        grid-row: span 2;
+    }
+
+    .output {
+        grid-column: 1/-1;
+        background-color: #fff;
+        border: 10px solid #000;
+        border-bottom: none;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-around;
+        padding: 0.75rem;
+        word-wrap: break-word;
+        word-break: break-all;
+
+        .storedOperand {
+            font-size: 1.2rem;
+        }
+
+        .currOperand {
+            font-size: 3rem;
+        }
+    }
+
+    button {
+        cursor: pointer;
+        font-size: 2rem;
+        border: 10px solid #000;
+        background-color: #fff;
+        text-align: right;
+        padding: 0.75rem;
+        color: #000;
+
+        &:hover {
+            background-color: #ffa500;
+        }
+    }
+}
